@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Brand Colors (Indigo Rebrand) -->
     <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="purple_500">#6366F1</color> <!-- Indigo -->
+    <color name="purple_700">#4F46E5</color> <!-- Darker Indigo -->
+    <color name="teal_200">#A5F3FC</color> <!-- Cyan Accent -->
+    <color name="teal_700">#0891B2</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <color name="highlight_color">#4D2196F3</color> <!-- Semi-transparent Blue -->
-    <color name="highlight_stroke">#FF2196F3</color> <!-- Solid Blue -->
-    <color name="overlay_background">#80000000</color> <!-- Semi-transparent Black -->
+    <!-- Functional Constants -->
+    <color name="highlight_color">#4D6366F1</color> <!-- Semi-transparent Indigo -->
+    <color name="highlight_stroke">#FF6366F1</color> <!-- Solid Indigo -->
+    <color name="overlay_background">#800F172A</color> <!-- Deep Slate Overlay -->
+    
+    <!-- Semantic Colors (Day - Premium Slate) -->
+    <color name="app_background">#F5F7FA</color> <!-- Soft Cloud White -->
+    <color name="text_primary">#1F2937</color> <!-- Dark Slate -->
+    <color name="text_secondary">#6B7280</color> <!-- Cool Gray -->
+    <color name="surface_card">#FFFFFF</color> <!-- Pure White -->
+    <color name="icon_tint">#6366F1</color> <!-- Indigo -->
 </resources>

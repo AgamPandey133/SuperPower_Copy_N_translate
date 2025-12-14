@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusTv: TextView
     private lateinit var languageSpinner: android.widget.Spinner
     private lateinit var btnAction: Button
+    private lateinit var rvHistory: androidx.recyclerview.widget.RecyclerView
+    private lateinit var historyAdapter: com.example.superpower.ui.HistoryAdapter
+    private lateinit var historyManager: com.example.superpower.util.HistoryManager
 
     private val languages = mapOf(
         "Hindi" to "hi",
@@ -45,23 +48,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        historyManager = com.example.superpower.util.HistoryManager(this)
+
         statusTv = findViewById(R.id.tv_status)
         languageSpinner = findViewById(R.id.spinner_languages)
-        btnAction = findViewById(R.id.btn_action) // This ID exists in XML step 374, wait.
+        btnAction = findViewById(R.id.btn_action)
+        rvHistory = findViewById(R.id.rv_history)
+        
+        setupHistory()
 
         setupLanguageSpinner()
 
-        // We use the ID btn_action which is defined in XML
         btnAction.setOnClickListener {
              if (checkAndRequestPermissions()) {
                  requestMediaProjection()
              }
         }
     }
+    
+    private fun setupHistory() {
+        historyAdapter = com.example.superpower.ui.HistoryAdapter { item ->
+            historyManager.deleteItem(item)
+            loadHistory()
+            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
+        }
+        rvHistory.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        rvHistory.adapter = historyAdapter
+        loadHistory()
+    }
+    
+    private fun loadHistory() {
+        val list = historyManager.getHistory()
+        historyAdapter.updateData(list)
+    }
 
     override fun onResume() {
         super.onResume()
         updateUI()
+        loadHistory()
     }
 
     private fun setupLanguageSpinner() {

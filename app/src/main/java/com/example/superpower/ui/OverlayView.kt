@@ -169,6 +169,29 @@ class OverlayView(context: Context) : View(context) {
                         activePopup?.dismiss()
                         onCloseRequested?.invoke()
                     }
+                    
+                    val btnSpeak = view.findViewById<android.widget.ImageView>(R.id.btn_tts)
+                    val pbSpeak = view.findViewById<android.view.View>(R.id.pb_tts_loading)
+                    
+                    btnSpeak.setOnClickListener {
+                        pbSpeak.visibility = View.VISIBLE
+                        btnSpeak.visibility = View.INVISIBLE // Keep layout space but invisible
+                        
+                        onSpeakRequested?.invoke(result, targetCode, 
+                            { // onStart
+                                pbSpeak.visibility = View.GONE
+                                btnSpeak.visibility = View.VISIBLE
+                            },
+                            { // onDone
+                                // Do nothing or show done state
+                            },
+                            { error -> // onError
+                                pbSpeak.visibility = View.GONE
+                                btnSpeak.visibility = View.VISIBLE
+                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
                 }
             }
             
@@ -234,5 +257,6 @@ class OverlayView(context: Context) : View(context) {
 
 
     var onTranslateRequested: ((String, String, (String) -> Unit) -> Unit)? = null
+    var onSpeakRequested: ((String, String, () -> Unit, () -> Unit, (String) -> Unit) -> Unit)? = null
 
 }

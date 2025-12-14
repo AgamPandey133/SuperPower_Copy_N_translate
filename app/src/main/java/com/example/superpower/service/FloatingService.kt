@@ -49,6 +49,8 @@ class FloatingService : Service() {
     private lateinit var captureManager: CaptureManager
     private val ocrAnalyzer = OcrAnalyzer()
     private val translationManager = TranslationManager(this)
+    private lateinit var ttsManager: com.example.superpower.core.TTSManager
+    private lateinit var historyManager: com.example.superpower.util.HistoryManager
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private var resultCode: Int = 0
@@ -60,6 +62,8 @@ class FloatingService : Service() {
         super.onCreate()
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         captureManager = CaptureManager(this)
+        ttsManager = com.example.superpower.core.TTSManager(this)
+        historyManager = com.example.superpower.util.HistoryManager(this)
         startForegroundService()
     }
 
@@ -236,7 +240,10 @@ class FloatingService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun showOverlay(bitmap: Bitmap, textBlocks: List<com.google.mlkit.vision.text.Text.TextBlock>) {
-        overlayView = OverlayView(this).apply {
+        // Wrap context with Theme to ensure Spinner and UI elements inflate correctly
+        val contextWrapper = androidx.appcompat.view.ContextThemeWrapper(this, R.style.Theme_SuperPower)
+        
+        overlayView = OverlayView(contextWrapper).apply {
             // Set the background to the captured screenshot to simulate "Freezing" the screen
             background = BitmapDrawable(resources, bitmap)
             setDetectedText(textBlocks)
@@ -249,10 +256,30 @@ class FloatingService : Service() {
                  
                  translationJob = serviceScope.launch {
                      val translated = translationManager.translate(text, targetLang)
+                     historyManager.saveTranslation(text, translated, targetLang) // Save to History
                      withContext(Dispatchers.Main) {
                          onResult(translated)
                      }
                  }
+            }
+            
+            onSpeakRequested = { text, langCode, onStart, onDone, onError ->
+                try {
+                    ttsManager.speak(text, langCode, 
+                        onStart = {
+                            serviceScope.launch { onStart() }
+                        },
+                        onDone = {
+                            serviceScope.launch { onDone() }
+                        },
+                        onError = { error ->
+                            serviceScope.launch { onError(error) }
+                        }
+                    )
+                } catch (e: Exception) {
+                    android.widget.Toast.makeText(this@FloatingService, "TTS Error: ${e.message}", android.widget.Toast.LENGTH_SHORT).show()
+                    serviceScope.launch { onError("Exception: ${e.message}") }
+                }
             }
         }
 
@@ -281,6 +308,7 @@ class FloatingService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ttsManager.shutdown()
         if (floatingView != null) windowManager.removeView(floatingView)
         if (overlayView != null) windowManager.removeView(overlayView)
     }
