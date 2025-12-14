@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SuperPower Service</string>
+    <string name="permission_required_title">Permission Required</string>
+    <string name="permission_required_desc">This app needs permission to display over other apps to function.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="start_service">Start SuperPower</string>
+    <string name="stop_service">Stop Service</string>
+    <string name="service_running_channel">SuperPower Service Channel</string>
+    <string name="service_notification_title">SuperPower is Active</string>
+    <string name="service_notification_desc">Tap the floating icon to copy text.</string>
+    <string name="copy">Copy</string>
+    <string name="translate">Translate</string>
+    <string name="close">Close</string>
+    <string name="translating">Translating...</string>
+    <string name="translation_error">Error translating</string>
+</resources>
