@@ -123,8 +123,72 @@ class OverlayView(context: Context) : View(context) {
         }
 
         btnTranslate.setOnClickListener {
-            onTranslateRequested?.invoke(text)
-            activePopup?.dismiss()
+            // UI State: Loading
+            btnCopy.visibility = View.GONE
+            btnTranslate.visibility = View.GONE
+            btnShare.visibility = View.GONE
+            
+            // Show Result Container
+            val layoutResult = view.findViewById<View>(R.id.layout_result)
+            layoutResult.visibility = View.VISIBLE
+            
+            val pbLoading = view.findViewById<View>(R.id.pb_translate_loading)
+            val tvResult = view.findViewById<TextView>(R.id.tv_result)
+            val spinnerLang = view.findViewById<android.widget.Spinner>(R.id.spinner_result_lang)
+            
+            pbLoading.visibility = View.VISIBLE
+            tvResult.visibility = View.GONE
+
+            // Setup Spinner
+            val languageNames = com.example.superpower.util.LanguageData.languageNames
+            val adapter = android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, languageNames)
+            spinnerLang.adapter = adapter
+            
+            // Get Default Pref
+            val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            val defaultCode = prefs.getString("target_lang", "hi")
+            val defaultName = com.example.superpower.util.LanguageData.getName(defaultCode ?: "hi")
+            spinnerLang.setSelection(languageNames.indexOf(defaultName))
+            
+            // Define Translation Function
+            fun performTranslation(targetCode: String) {
+                pbLoading.visibility = View.VISIBLE
+                tvResult.visibility = View.GONE
+                
+                onTranslateRequested?.invoke(text, targetCode) { result ->
+                     pbLoading.visibility = View.GONE
+                     tvResult.text = result
+                     tvResult.visibility = View.VISIBLE
+                     tvResult.movementMethod = android.text.method.ScrollingMovementMethod()
+                     
+                     tvResult.setOnClickListener {
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip = android.content.ClipData.newPlainText("Translated Text", result)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(context, "Translation Copied", Toast.LENGTH_SHORT).show()
+                        activePopup?.dismiss()
+                        onCloseRequested?.invoke()
+                    }
+                }
+            }
+            
+            // Initial Translation
+            performTranslation(defaultCode ?: "hi")
+            
+            // Spinner Listener
+            spinnerLang.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+                var isFirst = true
+                override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
+                    if (isFirst) {
+                        isFirst = false // Avoid double trigger on setSelection
+                        return
+                    }
+                    val selectedName = languageNames[position]
+                    val selectedCode = com.example.superpower.util.LanguageData.getCode(selectedName)
+                    performTranslation(selectedCode)
+                }
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+            }
         }
 
         btnShare.setOnClickListener {
@@ -169,6 +233,6 @@ class OverlayView(context: Context) : View(context) {
     }
 
 
-    var onTranslateRequested: ((String) -> Unit)? = null
+    var onTranslateRequested: ((String, String, (String) -> Unit) -> Unit)? = null
 
 }

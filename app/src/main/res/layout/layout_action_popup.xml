@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/bg_circle"
-    android:backgroundTint="@color/white"
+    android:background="@drawable/bg_popup_rounded"
+    android:backgroundTint="@null"
     android:elevation="8dp"
     android:padding="8dp">
 
@@ -49,5 +49,82 @@
         android:textStyle="bold"
         android:padding="8dp"
         android:drawablePadding="4dp"/>
+
+    <!-- Loading State -->
+    <!-- Result Container -->
+    <LinearLayout
+        android:id="@+id/layout_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:minWidth="220dp"
+        android:paddingTop="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_language" 
+                android:tint="@color/purple_700"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="Language Icon"/>  
+                <!-- Using launcher foreground as generic icon placeholder or remove tint if it's colorful -->
+            
+            <Spinner
+                android:id="@+id/spinner_result_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="40dp"
+                android:background="@android:drawable/btn_dropdown"/>
+                
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <ProgressBar
+                android:id="@+id/pb_translate_loading"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:indeterminateTint="@color/purple_700"/>
+
+            <TextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:lineSpacingExtra="2dp"
+                android:background="@drawable/bg_translated_text"
+                android:padding="12dp"
+                android:maxWidth="300dp"
+                android:maxLines="15"
+                android:scrollbars="vertical"
+                android:textIsSelectable="false"/> 
+                <!-- textIsSelectable false to handle click events on View manually -->
+        </FrameLayout>
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tap text to copy"
+            android:textColor="#888888"
+            android:textSize="10sp"
+            android:gravity="end"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"/>
+            
+    </LinearLayout>
 
 </LinearLayout>

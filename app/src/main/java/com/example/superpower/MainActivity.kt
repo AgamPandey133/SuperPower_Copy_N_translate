@@ -14,8 +14,22 @@ import com.example.superpower.util.PermissionUtil
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var statusTv: TextView
+    private lateinit var languageSpinner: android.widget.Spinner
     private lateinit var btnAction: Button
-    private lateinit var tvStatus: TextView
+
+    private val languages = mapOf(
+        "Hindi" to "hi",
+        "English" to "en",
+        "Spanish" to "es",
+        "French" to "fr",
+        "German" to "de",
+        "Italian" to "it",
+        "Japanese" to "ja",
+        "Korean" to "ko",
+        "Russian" to "ru",
+        "Chinese" to "zh"
+    )
 
     private val mediaProjectionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -31,11 +45,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnAction = findViewById(R.id.btn_action)
-        tvStatus = findViewById(R.id.tv_status)
+        statusTv = findViewById(R.id.tv_status)
+        languageSpinner = findViewById(R.id.spinner_languages)
+        btnAction = findViewById(R.id.btn_action) // This ID exists in XML step 374, wait.
 
+        setupLanguageSpinner()
+
+        // We use the ID btn_action which is defined in XML
         btnAction.setOnClickListener {
-            handleAction()
+             if (checkAndRequestPermissions()) {
+                 requestMediaProjection()
+             }
         }
     }
 
@@ -44,15 +64,41 @@ class MainActivity : AppCompatActivity() {
         updateUI()
     }
 
-    private fun handleAction() {
+    private fun setupLanguageSpinner() {
+        val adapter = android.widget.ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            languages.keys.toList()
+        )
+        languageSpinner.adapter = adapter
+        
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val savedCode = prefs.getString("target_lang", "hi") // Default Hindi
+        
+        val keys = languages.keys.toList()
+        for (i in keys.indices) {
+            if (languages[keys[i]] == savedCode) {
+                languageSpinner.setSelection(i)
+                break
+            }
+        }
+        
+        languageSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+             override fun onItemSelected(parent: android.widget.AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                 val selectedName = keys[position]
+                 val code = languages[selectedName]
+                 prefs.edit().putString("target_lang", code).apply()
+             }
+             override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+        }
+    }
+
+    private fun checkAndRequestPermissions(): Boolean {
         if (!PermissionUtil.hasOverlayPermission(this)) {
             PermissionUtil.requestOverlayPermission(this)
-            return
+            return false
         }
-
-        // If service assume running? We don't track state well here yet.
-        // Just always try to start for MVP
-        requestMediaProjection()
+        return true
     }
 
     private fun requestMediaProjection() {
@@ -66,16 +112,16 @@ class MainActivity : AppCompatActivity() {
             putExtra(FloatingService.EXTRA_RESULT_DATA, data)
         }
         startForegroundService(intent)
-        finish() // Close activity, let the floating head take over
+        finish() 
     }
 
     private fun updateUI() {
         if (!PermissionUtil.hasOverlayPermission(this)) {
             btnAction.text = getString(R.string.grant_permission)
-            tvStatus.text = getString(R.string.permission_required_desc)
+            statusTv.text = getString(R.string.permission_required_desc)
         } else {
             btnAction.text = getString(R.string.start_service)
-            tvStatus.text = "Permissions granted. Ready to activate."
+            statusTv.text = "Permissions granted. Ready to activate."
         }
     }
 }

@@ -48,11 +48,13 @@ class FloatingService : Service() {
     private var overlayView: OverlayView? = null
     private lateinit var captureManager: CaptureManager
     private val ocrAnalyzer = OcrAnalyzer()
-    private val translationManager = TranslationManager()
+    private val translationManager = TranslationManager(this)
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private var resultCode: Int = 0
     private var resultData: Intent? = null
+    
+    private var translationJob: kotlinx.coroutines.Job? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -241,10 +243,15 @@ class FloatingService : Service() {
             onCloseRequested = {
                 removeOverlay()
             }
-            onTranslateRequested = { text ->
-                 serviceScope.launch {
-                     val translated = translationManager.translate(text)
-                     Toast.makeText(this@FloatingService, translated, Toast.LENGTH_LONG).show()
+            onTranslateRequested = { text, targetLang, onResult ->
+                 // Cancel previous translation if any (e.g. user switched language quickly)
+                 translationJob?.cancel()
+                 
+                 translationJob = serviceScope.launch {
+                     val translated = translationManager.translate(text, targetLang)
+                     withContext(Dispatchers.Main) {
+                         onResult(translated)
+                     }
                  }
             }
         }
