@@ -1,0 +1,27 @@
+Privacy Policy for SuperPower Copy & Translate
+
+Last updated: December 29, 2025
+
+1. Introduction
+Welcome to SuperPower Copy & Translate. This Privacy Policy explains how we handle your information. We are committed to protecting your privacy.
+
+2. Data Collection and Usage
+- Screen Capture: This app uses the Media Projection API (Screen Capture) to capture the screen content ONLY when you explicitly activate the "SuperPower" service. This feature is used solely to extract text for translation purposes.
+- The captured screen data is processed locally on your device or transiently sent to translation services. It is NOT stored permanently on our servers and is NOT used for any other purpose.
+- We do not collect personal identification information (PII) such as names, addresses, or phone numbers.
+
+3. Permissions
+- Overlay Permission: Required to display the floating button and translation layer over other apps.
+- Screen Recording: Required to "see" the text you want to translate.
+
+4. Third-Party Services
+We may use potential third-party libraries for OCR (Optical Character Recognition) or Translation (e.g., Google ML Kit). These services are subject to their own privacy policies.
+
+5. Data Security
+We implement reasonable security measures to protect the transient data processed by the app.
+
+6. Changes to This Policy
+We may update our Privacy Policy from time to time. You are advised to review this page periodically for any changes.
+
+7. Contact Us
+If you have any questions about this Privacy Policy, please contact us.
