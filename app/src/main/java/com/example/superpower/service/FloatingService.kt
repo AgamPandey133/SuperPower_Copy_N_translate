@@ -130,8 +130,16 @@ class FloatingService : Service() {
         params.x = 0
         params.y = 100
 
+        // Set Click Listener for Close Button
+        val btnClose = floatingView?.findViewById<View>(R.id.btn_close_floating)
+        btnClose?.setOnClickListener {
+            stopSelf()
+            Toast.makeText(this@FloatingService, "SuperPower Stopped", Toast.LENGTH_SHORT).show()
+        }
+
         // Handle Dragging via the Root View to catch all touches
         floatingView?.setOnTouchListener(object : View.OnTouchListener {
+ // ... (rest of listener)
             private var initialX = 0
             private var initialY = 0
             private var initialTouchX = 0f
@@ -246,7 +254,13 @@ class FloatingService : Service() {
         overlayView = OverlayView(contextWrapper).apply {
             // Set the background to the captured screenshot to simulate "Freezing" the screen
             background = BitmapDrawable(resources, bitmap)
+            
+            // Store blocks locally for Magic Mode access
             setDetectedText(textBlocks)
+            
+            // Pass the blocks map or let OverlayView have it?
+            // OverlayView has it internally.
+            
             onCloseRequested = {
                 removeOverlay()
             }
@@ -279,6 +293,32 @@ class FloatingService : Service() {
                 } catch (e: Exception) {
                     android.widget.Toast.makeText(this@FloatingService, "TTS Error: ${e.message}", android.widget.Toast.LENGTH_SHORT).show()
                     serviceScope.launch { onError("Exception: ${e.message}") }
+                }
+            }
+            
+            onMagicModeRequested = {
+                val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                val targetCode = prefs.getString("target_lang", "hi") ?: "hi"
+                
+                // Batch Translation
+                serviceScope.launch {
+                    val blocks = textBlocks // captured from parameter
+                    for (block in blocks) {
+                        try {
+                            // Translate each block independantly
+                            // We do this sequentially to avoid overwhelming the model, or parallel?
+                            // Parallel is faster for ML Kit.
+                            launch {
+                                val translated = translationManager.translate(block.text, targetCode)
+                                withContext(Dispatchers.Main) {
+                                    overlayView?.updateTranslation(block, translated)
+                                }
+                            }
+                        } catch (e: Exception) {
+                             e.printStackTrace()
+                        }
+                    }
+                    // Save bulk? Maybe not for history to avoid spam.
                 }
             }
         }

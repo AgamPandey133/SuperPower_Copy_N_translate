@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -9,12 +10,13 @@
 
         <ImageView
             android:id="@+id/iv_floating_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_scan"
-            android:padding="8dp"
-            android:background="@drawable/bg_circle"
-            android:elevation="8dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_lens_cool"
+            android:padding="12dp"
+            android:background="@drawable/bg_floating_cyber"
+            android:elevation="10dp"
+            app:tint="@color/teal_700"
             android:contentDescription="Scan" />
 
         <ProgressBar
@@ -26,5 +28,17 @@
             android:indeterminateTint="@color/purple_700"
             android:elevation="10dp"/>
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/btn_close_floating"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top|end"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:padding="4dp"
+        android:elevation="12dp"
+        android:contentDescription="Close Service" />
 
 </FrameLayout>

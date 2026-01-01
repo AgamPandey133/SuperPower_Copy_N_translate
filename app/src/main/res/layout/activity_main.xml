@@ -1,89 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
-    android:background="@color/app_background">
+    android:background="@drawable/bg_gradient_main">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_scan"
-        android:background="@drawable/bg_circle"
-        android:padding="24dp"
-        android:layout_marginBottom="32dp"
-        android:tint="@color/text_primary"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:clipToPadding="false">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="8dp"/>
-        
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Universal Copy &amp; Translate"
-        android:textSize="16sp"
-        android:textColor="@color/purple_700"
-        android:layout_marginBottom="48dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
+            <!-- Hero Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="32dp">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_scan"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/purple_500"
+                    android:elevation="12dp"
+                    android:padding="20dp"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap. Translate. Magic."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Configuration Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/surface_card"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Target Language"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:id="@+id/btn_manage_models"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Manage Offline"
+                            android:textColor="@color/purple_500"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:background="?attr/selectableItemBackground"
+                            android:padding="8dp"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         app:cardCornerRadius="8dp"
+                         app:strokeColor="@color/purple_200"
+                         app:strokeWidth="1dp"
+                         app:cardElevation="0dp"
+                         app:cardBackgroundColor="@android:color/transparent"
+                         android:layout_marginTop="12dp">
+                         
+                        <Spinner
+                            android:id="@+id/spinner_languages"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="12dp"/>
+                         
+                        <ImageView
+                             android:layout_width="24dp"
+                             android:layout_height="24dp"
+                             android:src="@android:drawable/arrow_down_float"
+                             android:layout_gravity="center_vertical|end"
+                             android:layout_marginEnd="12dp"
+                             app:tint="@color/text_secondary"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- History Section -->
+            <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:gravity="center_vertical"
+                 android:layout_marginBottom="8dp">
+
+                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Recent Translations"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_primary"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:minHeight="200dp"/>
+
+            <!-- Padding for FAB -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Action Button (Start) -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btn_action"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
         android:text="@string/start_service"
-        android:backgroundTint="@color/purple_500"
         android:textColor="@color/white"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:textAllCaps="false"/>
-
-    <TextView
-        android:id="@+id/tv_bg_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Translate To:"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginTop="30dp"/>
-
-    <Spinner
-        android:id="@+id/spinner_languages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:minHeight="48dp"
-        android:background="@android:drawable/btn_dropdown"/>
-        
-    <TextView
-        android:id="@+id/tv_history_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recent History"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/text_primary"
-        android:layout_marginTop="24dp"
-        android:layout_gravity="start"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"/>
-
+        app:icon="@drawable/ic_scan"
+        app:iconTint="@color/white"
+        app:backgroundTint="@color/purple_500"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:elevation="6dp"/>
+    
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: Stopped"
-        android:padding="8dp"
-        android:textColor="@color/teal_700"/>
+        android:text="Stopped"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="12dp"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/btn_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Privacy &amp; Terms"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

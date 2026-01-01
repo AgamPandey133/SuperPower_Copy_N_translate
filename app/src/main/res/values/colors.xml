@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand Colors (Indigo Rebrand) -->
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#6366F1</color> <!-- Indigo -->
-    <color name="purple_700">#4F46E5</color> <!-- Darker Indigo -->
-    <color name="teal_200">#A5F3FC</color> <!-- Cyan Accent -->
-    <color name="teal_700">#0891B2</color>
+    <!-- Cyber Tech Palette (Day - Light & Clean) -->
+    <color name="purple_200">#82B1FF</color>
+    <color name="purple_500">#2979FF</color> <!-- Electric Blue (Replaces Pink) -->
+    <color name="purple_700">#2962FF</color>
+    <color name="teal_200">#80DEEA</color>
+    <color name="teal_700">#00BCD4</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Functional Constants -->
-    <color name="highlight_color">#4D6366F1</color> <!-- Semi-transparent Indigo -->
-    <color name="highlight_stroke">#FF6366F1</color> <!-- Solid Indigo -->
-    <color name="overlay_background">#800F172A</color> <!-- Deep Slate Overlay -->
+    <!-- Functional -->
+    <color name="highlight_color">#4D2979FF</color>
+    <color name="highlight_stroke">#FF2979FF</color>
+    <color name="overlay_background">#800F172A</color>
     
-    <!-- Semantic Colors (Day - Premium Slate) -->
-    <color name="app_background">#F5F7FA</color> <!-- Soft Cloud White -->
-    <color name="text_primary">#1F2937</color> <!-- Dark Slate -->
-    <color name="text_secondary">#6B7280</color> <!-- Cool Gray -->
+    <!-- Semantic Assets (Day - High Contrast) -->
+    <color name="app_background">#F8FAFC</color> <!-- Light Slate White -->
     <color name="surface_card">#FFFFFF</color> <!-- Pure White -->
-    <color name="icon_tint">#6366F1</color> <!-- Indigo -->
+    <color name="text_primary">#1E293B</color> <!-- Dark Slate Text -->
+    <color name="text_secondary">#64748B</color> <!-- Slate Gray -->
+    <color name="icon_tint">#2979FF</color> <!-- Electric Blue -->
+    
+    <!-- Floating Widget Specific -->
+    <color name="floating_bg">#FFFFFF</color>
+    <color name="floating_border">#2979FF</color>
 </resources>

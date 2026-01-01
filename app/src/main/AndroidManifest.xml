@@ -33,6 +33,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".ModelManagerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SuperPower" />
+
+        <activity
+            android:name=".ui.PolicyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SuperPower" />
 
         <service
             android:name=".service.FloatingService"

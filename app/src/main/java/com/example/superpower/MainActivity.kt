@@ -61,9 +61,29 @@ class MainActivity : AppCompatActivity() {
 
         btnAction.setOnClickListener {
              if (checkAndRequestPermissions()) {
-                 requestMediaProjection()
+                 showDisclosureDialog()
              }
         }
+        
+        findViewById<android.view.View>(R.id.btn_manage_models).setOnClickListener {
+            startActivity(Intent(this, ModelManagerActivity::class.java))
+        }
+
+        findViewById<android.view.View>(R.id.btn_privacy).setOnClickListener {
+            val intent = Intent(this, com.example.superpower.ui.PolicyActivity::class.java)
+            startActivity(intent)
+        }
+    }
+    
+    private fun showDisclosureDialog() {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Screen Capture Disclosure")
+            .setMessage("This app uses the Screen Capture API (Media Projection) to detect and translate text on your screen.\n\nThe service is only active when you tap 'Start SuperPower' and the floating button is visible.\n\nData is processed locally or transiently for translation and is NOT stored permanently or shared for any other purpose.")
+            .setPositiveButton("Proceed") { _, _ ->
+                requestMediaProjection()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
     
     private fun setupHistory() {
