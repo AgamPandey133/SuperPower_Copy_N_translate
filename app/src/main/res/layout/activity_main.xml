@@ -148,53 +148,61 @@
                 android:nestedScrollingEnabled="false"
                 android:minHeight="200dp"/>
 
-            <!-- Padding for FAB -->
+            <!-- Padding for FAB and Footer -->
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="80dp"/>
+                android:layout_height="160dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button (Start) -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btn_action"
+    <!-- Bottom Action Area -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="32dp"
-        android:text="@string/start_service"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:icon="@drawable/ic_scan"
-        app:iconTint="@color/white"
-        app:backgroundTint="@color/purple_500"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:elevation="6dp"/>
-    
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stopped"
-        android:textSize="12sp"
-        android:textColor="@color/text_secondary"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="12dp"/>
+        android:paddingBottom="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-    <TextView
-        android:id="@+id/btn_privacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Privacy &amp; Terms"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textColor="@color/purple_500"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="?attr/selectableItemBackground"
-        android:padding="8dp"
-        android:layout_marginBottom="4dp"/>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/btn_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_service"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_scan"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/purple_500"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:elevation="6dp"/>
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stopped"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/btn_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy &amp; Terms"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/purple_500"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:layout_marginTop="4dp"/>
+            
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

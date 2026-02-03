@@ -24,6 +24,10 @@
         android:theme="@style/Theme.SuperPower"
         tools:targetApi="31">
         
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr,ica" />
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"

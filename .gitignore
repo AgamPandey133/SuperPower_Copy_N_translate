@@ -1,5 +1,27 @@
-# Project exclude paths
-/.gradle/
-/app/build/
-/app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
-/build/
+# Gradle
+.gradle/
+build/
+app/build/
+!gradle-wrapper.jar
+
+# Local configuration file (sdk.dir)
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+
+# Keystores
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# OS junk
+.DS_Store
+Thumbs.db

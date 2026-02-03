@@ -24,13 +24,24 @@
             android:focusable="true"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Offline Languages"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
             android:layout_marginStart="16dp"/>
+
+        <Button
+            android:id="@+id/btn_download_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get All"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/highlight_color"
+            android:textSize="12sp"
+            android:minHeight="40dp" />
     </LinearLayout>
 
     <TextView
